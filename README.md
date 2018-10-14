@@ -13,6 +13,9 @@ Run `unbalance_dppvae_generator.py` to generate synthetic hand-written digits us
 A comparison of results are shown below, where the proposed DPP-VAE generated more minor class '1':
 
 ### Synthetic data with standard VAE ###
+
 <img src="https://github.com/tianc01/dpp-vae/blob/master/results/random01_epoch500_10to1/ordered_all_images.jpg" width="400" />
+
 ### Synthetic data with DPP VAE ###
+
 <img src="https://github.com/tianc01/dpp-vae/blob/master/results/random01_dpp_epoch500_10to1/ordered_all_images.jpg" width="400" />
