@@ -10,7 +10,7 @@ Run `unbalance_vae_generator.py` to generate synthetic hand-written digits using
 
 Run `unbalance_dppvae_generator.py` to generate synthetic hand-written digits using the proposed VAE with Determinantal Point Process as the prior.
 
-A comparison of results are shown below:
+A comparison of results are shown below, where the proposed DPP-VAE generated more minor class '1':
 
 ### Synthetic data with standard VAE ###
 ![Standard VAE](https://github.com/tianc01/dpp-vae/blob/master/results/random01_epoch500_10to1/ordered_all_images.jpg)
