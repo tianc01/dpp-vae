@@ -1,4 +1,4 @@
-# Variational Autoencoder Latent Rebalancing with Determinantal Point Process Prior
+## Variational Autoencoder Latent Rebalancing with Determinantal Point Process Prior
 
 We proposed to use Determinantal Point Process as a diversity encouraging prior for latent variable models, here Variational Auto-encoderto in particular, to alleviate imbalance learning problem.
 
@@ -12,8 +12,8 @@ Run `unbalance_dppvae_generator.py` to generate synthetic hand-written digits us
 
 A comparison of results are shown below:
 
-Synthetic data with standard VAE
+### Synthetic data with standard VAE ###
 ![Standard VAE](https://github.com/tianc01/dpp-vae/blob/master/results/random01_epoch500_10to1/ordered_all_images.jpg)
 
-Synthetic data with DPP VAE
+### Synthetic data with DPP VAE ###
 ![DPP VAE](https://github.com/tianc01/dpp-vae/blob/master/results/random01_dpp_epoch500_10to1/ordered_all_images.jpg)
