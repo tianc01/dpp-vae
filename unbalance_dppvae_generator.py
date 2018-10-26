@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import input_data_ratio10to1
 import matplotlib
-matplotlib.use("Agg")
+matplotlib.use("TAgg")
 import matplotlib.pyplot as plt
 import os
 import math
