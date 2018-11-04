@@ -14,4 +14,4 @@ A comparison of results are shown below, where the proposed DPP-VAE generated mo
 
 Synthetic data with standard VAE | Synthetic data with DPP VAE
 :-------------------------:|:-------------------------:
-<img src="https://github.com/tianc01/dpp-vae/blob/master/results/random01_epoch500_10to1/ordered_all_images.jpg" width="400" />  |  <img src="https://github.com/tianc01/dpp-vae/blob/master/results/random01_dpp_epoch500_10to1/ordered_all_images.jpg" width="400" />
+<img src="https://github.com/tianc01/dpp-vae/blob/master/results/ordered_vae_10to1.jpg" width="400" />  |  <img src="https://github.com/tianc01/dpp-vae/blob/master/results/ordered_dppvae_10to1.jpg" width="400" />
