@@ -185,6 +185,30 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False):
     unbalance01_labels = numpy.array(unbalance01_labels)
     data_sets.unbalance01 = DataSet(unbalance01_images, unbalance01_labels)
 
+    # balance data for two classes 0, 1
+    # training
+    class0_count = 0
+    class1_count = 0
+    add_idx_balance01 = []
+    balance01_labels = []
+    for idx, label in enumerate(train_labels):
+        if (label == numpy.array([ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])).all():
+            class0_count += 1
+            if class0_count <= 5000:
+                add_idx_balance01.append(idx)
+                balance01_labels.append(numpy.array([ 1.,  0.]))
+        if (label == numpy.array([ 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])).all():
+            class1_count += 1
+            if class1_count <= 5000:
+                add_idx_balance01.append(idx)
+                balance01_labels.append(numpy.array([ 0.,  1.]))
+        if class0_count > 5000 and class1_count > 5000:
+            break
+
+    balance01_images = train_images[add_idx_balance01]
+    balance01_labels = numpy.array(balance01_labels)
+    data_sets.balance01 = DataSet(balance01_images, balance01_labels)
+
     # test
     class0_count = 0
     class1_count = 0

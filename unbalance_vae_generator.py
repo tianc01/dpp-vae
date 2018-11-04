@@ -15,7 +15,7 @@ import sys
 from scipy.misc import imsave as ims
 import random
 
-class LatentAttention():
+class VAE():
     def __init__(self):
         self.mnist = input_data_ratio10to1.read_data_sets("MNIST_data/", one_hot=True)
         self.n_samples = self.mnist.unbalance01.num_examples
@@ -96,9 +96,8 @@ class LatentAttention():
                             random_samples = np.concatenate((random_samples, generated_test), axis=0)
                         random_samples = random_samples[1:]
                         if epoch == 500:
-                            ims("results/random01_epoch500_10to1/all_images.jpg",merge(random_samples,[im_w, im_h]))
+                            ims("results/vae_10to1.jpg",merge(random_samples,[im_w, im_h]))
                         # if epoch == 500:
-                        #     st()
                         #     for i, image in enumerate(random_samples):
                         #         ims('results_random_samples/random01_epoch500_10to1/temp{}.jpg'.format(i), image)
 
@@ -141,5 +140,5 @@ class LatentAttention():
 
                         start_time = time.time()
 
-model = LatentAttention()
+model = VAE()
 model.train()

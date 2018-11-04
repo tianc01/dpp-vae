@@ -16,7 +16,7 @@ import sys
 from scipy.misc import imsave as ims
 import random
 
-class LatentAttention():
+class DPPVAE():
     def __init__(self):
         self.mnist = input_data_ratio10to1.read_data_sets("MNIST_data/", one_hot=True)
         self.n_samples = self.mnist.unbalance01.num_examples
@@ -78,32 +78,6 @@ class LatentAttention():
 
         return mat_LX
 
-    # encoder
-    def recognition(self, input_images):
-        with tf.variable_scope("recognition"):
-            h1 = lrelu(conv2d(input_images, 1, 16, "d_h1")) # 28x28x1 -> 14x14x16
-            h2 = lrelu(conv2d(h1, 16, 32, "d_h2")) # 14x14x16 -> 7x7x32
-            h2_flat = tf.reshape(h2,[self.batch_size, 7*7*32])
-
-            # w_mean = dense(h2_flat, 7*7*32, self.n_z, "w_mean")
-            # w_logsigma2 = dense(h2_flat, 7*7*32, self.n_z, "w_logsigma2")
-
-            w_mean = lrelu(dense(h2_flat, 7*7*32, self.n_z, "w_mean"))
-            w_logsigma2 = lrelu(dense(h2_flat, 7*7*32, self.n_z, "w_logsigma2"))
-
-        return w_mean, w_logsigma2
-
-    # decoder
-    def generation(self, z):
-        with tf.variable_scope("generation"):
-            z_develop = dense(z, self.n_z, 7*7*32, scope='z_matrix')
-            z_matrix = tf.nn.relu(tf.reshape(z_develop, [self.batch_size, 7, 7, 32]))
-            h1 = tf.nn.relu(conv_transpose(z_matrix, [self.batch_size, 14, 14, 16], "g_h1"))
-            h2 = conv_transpose(h1, [self.batch_size, 28, 28, 1], "g_h2")
-            h2 = tf.nn.sigmoid(h2)
-
-        return h2
-
     def elem_sym_poly(self, dim_kDPP, lam_list):
         '''
         Computing the elementary symmetric polynomials
@@ -148,6 +122,32 @@ class LatentAttention():
 
         return lam_list
 
+    # encoder
+    def recognition(self, input_images):
+        with tf.variable_scope("recognition"):
+            h1 = lrelu(conv2d(input_images, 1, 16, "d_h1")) # 28x28x1 -> 14x14x16
+            h2 = lrelu(conv2d(h1, 16, 32, "d_h2")) # 14x14x16 -> 7x7x32
+            h2_flat = tf.reshape(h2,[self.batch_size, 7*7*32])
+
+            # w_mean = dense(h2_flat, 7*7*32, self.n_z, "w_mean")
+            # w_logsigma2 = dense(h2_flat, 7*7*32, self.n_z, "w_logsigma2")
+
+            w_mean = lrelu(dense(h2_flat, 7*7*32, self.n_z, "w_mean"))
+            w_logsigma2 = lrelu(dense(h2_flat, 7*7*32, self.n_z, "w_logsigma2"))
+
+        return w_mean, w_logsigma2
+
+    # decoder
+    def generation(self, z):
+        with tf.variable_scope("generation"):
+            z_develop = dense(z, self.n_z, 7*7*32, scope='z_matrix')
+            z_matrix = tf.nn.relu(tf.reshape(z_develop, [self.batch_size, 7, 7, 32]))
+            h1 = tf.nn.relu(conv_transpose(z_matrix, [self.batch_size, 14, 14, 16], "g_h1"))
+            h2 = conv_transpose(h1, [self.batch_size, 28, 28, 1], "g_h2")
+            h2 = tf.nn.sigmoid(h2)
+
+        return h2
+
     def train(self):
         batch_size = 100       
         # train
@@ -173,7 +173,7 @@ class LatentAttention():
                         self.batch_size: batch_size,
                         self.log_norm_constant: log_norm_constant})
 
-                    if idx == range(int(self.n_samples / batch_size))[-1] and epoch % 50 == 0:
+                    if idx == range(int(self.n_samples / batch_size))[-1] and epoch % 20 == 0:
                         end_time = time.time()
                         print("Training epoch {}: --- {} seconds --- loss {} genloss {} latloss {}".format(epoch,end_time-start_time, loss, np.mean(gen_loss), np.mean(lat_loss)))
                         
@@ -189,7 +189,7 @@ class LatentAttention():
                             random_samples = np.concatenate((random_samples, generated_test), axis=0)
                         random_samples = random_samples[1:]
                         if epoch == 500:
-                            ims("results/random01_dpp_epoch500_10to1/all_images.jpg",merge(random_samples,[im_w, im_h]))
+                            ims("results/dppvae_10to1_unordered.jpg",merge(random_samples,[im_w, im_h]))
                         # if epoch == 500:
                         #     for i, image in enumerate(random_samples):
                         #         ims('results_random_samples/random01_dpp_epoch500_10to1/temp{}.jpg'.format(i), image)
@@ -230,5 +230,5 @@ class LatentAttention():
 
                         start_time = time.time()
                         
-model = LatentAttention()
+model = DPPVAE()
 model.train()
